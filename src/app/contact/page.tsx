@@ -44,8 +44,8 @@ export default function ContactPage() {
               <span className="text-[#7ec870]">Beautiful Together</span>
             </h1>
             <p className="text-white/75 text-lg leading-relaxed">
-              Ready to transform your outdoor space? Reach out and let&apos;s start
-              the conversation.
+              Ready to transform your outdoor space? Reach out and let&apos;s
+              start the conversation.
             </p>
           </div>
         </section>
@@ -207,7 +207,8 @@ export default function ContactPage() {
                     {businessEmail}
                   </a>
                   <p className="text-xs text-gray-500 mt-3">
-                    Or give us a call — we&apos;d love to talk about your project.
+                    Or give us a call — we&apos;d love to talk about your
+                    project.
                   </p>
                 </div>
               )}

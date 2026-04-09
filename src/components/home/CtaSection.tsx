@@ -8,8 +8,8 @@ export default function CtaSection() {
           Ready to Transform Your Outdoor Space?
         </h2>
         <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-          Let&apos;s talk about your project. Schedule a free consultation and I&apos;ll
-          walk you through the design process — no obligation.
+          Let&apos;s talk about your project. Schedule a free consultation and
+          I&apos;ll walk you through the design process — no obligation.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link

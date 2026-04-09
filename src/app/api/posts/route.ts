@@ -18,7 +18,7 @@ const schema = z.object({
 });
 
 // GET: list all posts (admin sees all, public blog uses the /blog route)
-export async function GET(_request: NextRequest) {
+export async function GET() {
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
