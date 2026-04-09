@@ -1,0 +1,51 @@
+# This workflow has been superseded by the unified pipeline in ci.yml.
+# Safe to delete: git rm .github/workflows/deploy-production.yml
+#
+# No 'on:' key is defined, so GitHub Actions will never execute this file.
+
+jobs:
+  deploy:
+    name: Terraform Apply — production
+    # Only deploy when CI succeeded
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment: production # maps to GitHub environment "production" (requires manual approval)
+
+    env:
+      TF_WORKSPACE: production # selects the "juniper-ridge-production" TF Cloud workspace
+      TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+      # Sensitive Terraform variables — sourced from GitHub environment secrets
+      # (Settings → Environments → production). Terraform picks these up
+      # automatically; no manual TF Cloud workspace variable configuration needed.
+      TF_VAR_render_api_key: ${{ secrets.RENDER_API_KEY }}
+      TF_VAR_render_owner_id: ${{ secrets.RENDER_OWNER_ID }}
+      TF_VAR_auth_secret: ${{ secrets.AUTH_SECRET }}
+      TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
+      TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
+      TF_VAR_smtp_host: ${{ secrets.SMTP_HOST }}
+      TF_VAR_smtp_user: ${{ secrets.SMTP_USER }}
+      TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
+
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~> 1.9"
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -var-file=environments/production.tfvars
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var-file=environments/production.tfvars

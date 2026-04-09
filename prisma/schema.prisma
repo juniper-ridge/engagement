@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  posts     Post[]
+}
+
+model Post {
+  id         String    @id @default(cuid())
+  title      String
+  slug       String    @unique
+  content    String
+  excerpt    String
+  coverImage String?
+  published  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  authorId   String
+  author     User      @relation(fields: [authorId], references: [id])
+  comments   Comment[]
+  likes      Like[]
+  tags       String?
+}
+
+model Comment {
+  id         String   @id @default(cuid())
+  content    String
+  authorName String
+  email      String
+  approved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  postId     String
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  ipAddress String
+  createdAt DateTime @default(now())
+
+  @@unique([postId, ipAddress])
+}
+
+model HeroSlide {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String?
+  imageUrl  String
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// About page — singleton settings record
+model AboutPageSettings {
+  id                  String   @id @default(cuid())
+  heroTagline         String   @default("About Us")
+  heroTitle1          String   @default("Rooted in Passion,")
+  heroTitle2          String   @default("Grown with Purpose")
+  heroSubtitle        String   @default("A sole-practitioner landscape and hardscape design studio serving residential properties throughout the Wasatch Front, Utah.")
+  heroImageUrl        String   @default("https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=80")
+  storyImageUrl       String   @default("https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80")
+  storyHeading        String   @default("Where Every Landscape Tells a Story")
+  storyParagraph1     String   @default("Juniper Ridge Landscape was built on a simple belief: every outdoor space has the potential to become something extraordinary. I started this studio to offer homeowners throughout the Wasatch Front a thoughtful, personal approach to landscape and hardscape design.")
+  storyParagraph2     String   @default("I spent years studying horticulture and design before establishing Juniper Ridge, bringing a blend of technical knowledge and artistic vision to every project. I believe great landscape design isn't just about aesthetics — it's about creating spaces that enhance how you live and suit the unique character of Utah's environment.")
+  storyParagraph3     String   @default("As a one-person studio, I'm involved in every project from the very first site visit through the final set of construction drawings. You'll always work directly with me — no handoffs, no middlemen.")
+  teamSectionLabel    String   @default("The Designer")
+  teamSectionTitle    String   @default("Meet the Designer")
+  teamSectionSubtitle String   @default("A solo practice — you work directly with me on every project.")
+  updatedAt           DateTime @updatedAt
+}
+
+// About page — service pills
+model AboutService {
+  id     String  @id @default(cuid())
+  name   String
+  order  Int     @default(0)
+  active Boolean @default(true)
+}
+
+// About page — values grid
+model AboutValue {
+  id          String  @id @default(cuid())
+  iconKey     String  @default("sustainability")
+  title       String
+  description String
+  order       Int     @default(0)
+  active      Boolean @default(true)
+}
+
+// About page — team members
+model AboutTeamMember {
+  id       String  @id @default(cuid())
+  name     String
+  role     String
+  bio      String
+  imageUrl String
+  order    Int     @default(0)
+  active   Boolean @default(true)
+}

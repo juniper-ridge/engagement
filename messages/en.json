@@ -1,0 +1,156 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "getQuote": "Get a Quote"
+  },
+  "hero": {
+    "tagline": "Serving the Wasatch Front",
+    "title": "Beautiful Landscapes,\nCrafted with Care",
+    "subtitle": "Juniper Ridge Landscape offers custom landscape and hardscape design for residential properties throughout the Wasatch Front, Utah — turning your vision into a detailed plan ready to build.",
+    "cta": "See My Work",
+    "contactCta": "Schedule a Consultation"
+  },
+  "services": {
+    "title": "Design Services",
+    "subtitle": "Professional landscape and hardscape design for residential properties throughout the Wasatch Front, Utah.",
+    "design": {
+      "title": "Landscape Design",
+      "description": "Full-site master plans and planting designs tailored to your property, climate, and lifestyle — from concept through construction-ready drawings."
+    },
+    "hardscape": {
+      "title": "Hardscape Design",
+      "description": "Detailed design plans for patios, walkways, retaining walls, and outdoor living areas — beautifully drawn and contractor-ready."
+    },
+    "planting": {
+      "title": "Planting Plans",
+      "description": "Curated plant selections suited to Utah's climate, with detailed planting plans specifying species, quantities, and placement."
+    }
+  },
+  "portfolio": {
+    "title": "Featured Projects",
+    "subtitle": "A glimpse into the outdoor spaces we've brought to life.",
+    "viewAll": "View All Projects"
+  },
+  "about": {
+    "pageTitle": "About",
+    "heroTitle": "Rooted in Passion,\nGrown with Purpose",
+    "heroSubtitle": "Juniper Ridge Landscape is a sole-practitioner design studio specializing in landscape and hardscape design for residential properties throughout the Wasatch Front, Utah.",
+    "story": {
+      "title": "My Story",
+      "p1": "Juniper Ridge Landscape was built on a simple belief: every outdoor space has the potential to become something extraordinary. I started this studio to offer homeowners throughout the Wasatch Front a thoughtful, personal approach to landscape and hardscape design.",
+      "p2": "I spent years studying horticulture and design before establishing Juniper Ridge, bringing a blend of technical knowledge and artistic vision to every project. I believe great landscape design isn't just about aesthetics — it's about creating spaces that enhance how you live and suit the unique character of Utah's environment.",
+      "p3": "As a one-person studio, I'm involved in every project from the very first site visit through the final set of construction drawings. You'll always work directly with me."
+    },
+    "values": {
+      "title": "Our Values",
+      "sustainability": {
+        "title": "Sustainability",
+        "description": "We design with nature in mind, using native plants, water-wise practices, and eco-friendly materials."
+      },
+      "craftsmanship": {
+        "title": "Craftsmanship",
+        "description": "Every detail matters. We take pride in precision, quality materials, and meticulous execution."
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "description": "Your vision drives our design. We listen deeply and work with you every step of the way."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "We stay ahead of design trends and horticultural science to bring fresh ideas to your landscape."
+      }
+    },
+    "team": {
+      "title": "Meet the Designer",
+      "subtitle": "A solo practice dedicated to thoughtful, personal landscape and hardscape design.",
+      "founder": {
+        "name": "Sarah Mitchell",
+        "role": "Owner & Designer",
+        "bio": "With a degree in Landscape Architecture and a background in Utah horticulture, Sarah brings deep knowledge of Wasatch Front conditions — soil, climate, water use, and native plants — to every project."
+      }
+    },
+    "stats": {
+      "projects": "Designs Completed",
+      "years": "Service Area",
+      "clients": "Wasatch Front",
+      "awards": "Design Disciplines"
+    }
+  },
+  "contact": {
+    "pageTitle": "Contact Us",
+    "heroTitle": "Let's Create Something\nBeautiful Together",
+    "heroSubtitle": "Ready to transform your outdoor space? Reach out and let's start the conversation.",
+    "form": {
+      "title": "Send Us a Message",
+      "name": "Full Name",
+      "namePlaceholder": "Your full name",
+      "email": "Email Address",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Your phone number",
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your project...",
+      "submit": "Send Message",
+      "submitting": "Sending...",
+      "success": "Thank you! We'll be in touch within 1–2 business days.",
+      "error": "Something went wrong. Please try again or email us directly."
+    },
+    "schedule": {
+      "title": "Book a Consultation",
+      "subtitle": "Schedule a free 30-minute consultation with our design team using our online booking system."
+    },
+    "info": {
+      "title": "Get in Touch",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Service Area",
+      "hours": "Business Hours",
+      "hoursValue": "Mon–Fri: 9am–5pm"
+    }
+  },
+  "blog": {
+    "pageTitle": "Blog",
+    "heroTitle": "Landscape Insights &\nDesign Inspiration",
+    "heroSubtitle": "Tips, trends, and design ideas from Juniper Ridge Landscape.",
+    "readMore": "Read More",
+    "postedOn": "Posted on",
+    "by": "by",
+    "tags": "Tags",
+    "share": "Share",
+    "like": "Like",
+    "liked": "Liked",
+    "comments": "Comments",
+    "commentCount": "{count} Comments",
+    "noComments": "No comments yet. Be the first to share your thoughts!",
+    "leaveComment": "Leave a Comment",
+    "commentName": "Your Name",
+    "commentEmail": "Your Email",
+    "commentMessage": "Your Comment",
+    "commentSubmit": "Submit Comment",
+    "commentSubmitting": "Submitting...",
+    "commentSuccess": "Thank you! Your comment is awaiting approval.",
+    "commentError": "Something went wrong. Please try again.",
+    "awaitingApproval": "Awaiting approval",
+    "noPosts": "No posts published yet. Check back soon!",
+    "shareCopied": "Link copied to clipboard!",
+    "backToBlog": "Back to Blog"
+  },
+  "footer": {
+    "description": "Landscape and hardscape design for residential properties throughout the Wasatch Front, Utah.",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "connect": "Connect With Us",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred.",
+    "notFound": "Page not found.",
+    "backHome": "Back to Home"
+  }
+}

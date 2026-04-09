@@ -1,0 +1,243 @@
+name: Pipeline
+
+# Trunk-based development: all work merges to main via pull request.
+#
+# Pull request:   lint → test                                    (PR gate)
+# Merge to main:  lint → test → deploy-integration → e2e-integration
+#                             → deploy-production  → e2e-production
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ── 1. Lint ──────────────────────────────────────────────────────────────
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run lint
+
+  # ── 2. Unit Tests (Vitest) ───────────────────────────────────────────────
+  test:
+    name: Unit Tests
+    needs: lint
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: "file:./prisma/test.db"
+      AUTH_SECRET: "ci-test-secret-used-only-in-automated-tests-abc123"
+      NEXTAUTH_SECRET: "ci-test-secret-used-only-in-automated-tests-abc123"
+      NEXTAUTH_URL: "http://localhost:3000"
+      ADMIN_EMAIL: "ci-admin@example.com"
+      ADMIN_PASSWORD: "CiTestPassword123!"
+      NEXT_PUBLIC_BOOKINGS_URL: ""
+      NEXT_PUBLIC_SITE_NAME: "Juniper Ridge Landscape"
+      NEXT_PUBLIC_BUSINESS_EMAIL: "ci@example.com"
+      NEXT_PUBLIC_PHONE_NUMBER: "(555) 000-0000"
+      NEXT_PUBLIC_PHONE_HREF: "tel:+15550000000"
+      NEXT_PUBLIC_SERVICE_REGION: "Test Region, UT"
+      NEXT_PUBLIC_BUSINESS_HOURS: "Mon–Fri: 9am–5pm"
+      NEXT_PUBLIC_DOMAIN: "localhost:3000"
+      # SMTP left blank — email sending is mocked in tests
+      SMTP_HOST: ""
+      SMTP_PORT: "587"
+      SMTP_USER: ""
+      SMTP_PASSWORD: ""
+      SMTP_FROM: ""
+      CLIENT_EMAIL: ""
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+      - run: npx prisma generate
+      - run: npx prisma migrate deploy
+      - run: npm test -- --coverage
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+
+  # ── 3. Deploy → Integration ───────────────────────────────────────────────
+  deploy-integration:
+    name: Deploy → Integration
+    needs: test
+    # Only run on merges to main (push events), not on open PRs
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: integration
+    env:
+      TF_WORKSPACE: juniper-ridge-integration
+      TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+      TF_VAR_render_api_key: ${{ secrets.RENDER_API_KEY }}
+      TF_VAR_render_owner_id: ${{ secrets.RENDER_OWNER_ID }}
+      TF_VAR_auth_secret: ${{ secrets.AUTH_SECRET }}
+      TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
+      TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
+      TF_VAR_smtp_host: ${{ secrets.SMTP_HOST }}
+      TF_VAR_smtp_user: ${{ secrets.SMTP_USER }}
+      TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.14.8"
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -var-file=environments/integration.tfvars
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var-file=environments/integration.tfvars
+
+  # ── 4. E2E Regression → Integration ──────────────────────────────────────
+  e2e-integration:
+    name: E2E Regression → Integration
+    needs: deploy-integration
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    env:
+      PLAYWRIGHT_BASE_URL: "https://juniper-ridge-integration.onrender.com"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox
+
+      - name: Wait for integration to be healthy
+        run: |
+          echo "Waiting for https://juniper-ridge-integration.onrender.com ..."
+          for i in $(seq 1 30); do
+            status=$(curl -s -o /dev/null -w "%{http_code}" https://juniper-ridge-integration.onrender.com/)
+            echo "Attempt $i: HTTP $status"
+            if [ "$status" = "200" ]; then echo "Ready."; exit 0; fi
+            sleep 30
+          done
+          echo "Timed out waiting for integration." && exit 1
+
+      - name: Run E2E regression tests
+        run: npm run test:e2e
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: e2e-integration-report
+          path: playwright-report/
+          retention-days: 7
+
+  # ── 5. Deploy → Production ────────────────────────────────────────────────
+  deploy-production:
+    name: Deploy → Production
+    needs: e2e-integration
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      TF_WORKSPACE: juniper-ridge-production
+      TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+      TF_VAR_render_api_key: ${{ secrets.RENDER_API_KEY }}
+      TF_VAR_render_owner_id: ${{ secrets.RENDER_OWNER_ID }}
+      TF_VAR_auth_secret: ${{ secrets.AUTH_SECRET }}
+      TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
+      TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
+      TF_VAR_smtp_host: ${{ secrets.SMTP_HOST }}
+      TF_VAR_smtp_user: ${{ secrets.SMTP_USER }}
+      TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.14.8"
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -var-file=environments/production.tfvars
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var-file=environments/production.tfvars
+
+  # ── 6. E2E Smoke Tests → Production ──────────────────────────────────────
+  e2e-production:
+    name: E2E Smoke Tests → Production
+    needs: deploy-production
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    env:
+      PLAYWRIGHT_BASE_URL: "https://www.juniperridgelandscape.com"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox
+
+      - name: Wait for production to be healthy
+        run: |
+          echo "Waiting for https://www.juniperridgelandscape.com ..."
+          for i in $(seq 1 30); do
+            status=$(curl -s -o /dev/null -w "%{http_code}" https://www.juniperridgelandscape.com/)
+            echo "Attempt $i: HTTP $status"
+            if [ "$status" = "200" ]; then echo "Ready."; exit 0; fi
+            sleep 30
+          done
+          echo "Timed out waiting for production." && exit 1
+
+      - name: Run E2E smoke tests
+        run: npm run test:e2e
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: e2e-production-report
+          path: playwright-report/
+          retention-days: 7
