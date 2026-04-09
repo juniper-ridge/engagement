@@ -11,11 +11,9 @@ export default defineConfig({
     css: false,
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
     exclude: ["node_modules", ".next", "e2e"],
-    // Inline server-only packages so they don't fail in jsdom
-    server: {
-      deps: {
-        inline: ["next", "next-auth", "next-intl"],
-      },
+    // Inline server-only packages so they don't fail in jsdom (vitest 3.x+)
+    deps: {
+      inline: ["next", "next-auth", "next-intl"],
     },
     coverage: {
       provider: "v8",
