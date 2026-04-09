@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -81,7 +82,7 @@ export default async function ProtectedAdminLayout({
             </a>
           ))}
           <div className="border-t border-white/10 my-4" />
-          <a
+          <Link
             href="/"
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-white/10 hover:text-white transition-colors"
           >
@@ -99,7 +100,7 @@ export default async function ProtectedAdminLayout({
               />
             </svg>
             View Website
-          </a>
+          </Link>
         </nav>
         <div className="px-4 py-6 border-t border-white/10">
           <div className="flex items-center gap-3 px-3 py-2 rounded-lg">
@@ -115,7 +116,7 @@ export default async function ProtectedAdminLayout({
               </div>
             </div>
           </div>
-          <a
+          <Link
             href="/api/auth/signout"
             className="mt-2 w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-gray-400 hover:bg-white/10 hover:text-white transition-colors"
           >
@@ -133,7 +134,7 @@ export default async function ProtectedAdminLayout({
               />
             </svg>
             Sign Out
-          </a>
+          </Link>
         </div>
       </aside>
 

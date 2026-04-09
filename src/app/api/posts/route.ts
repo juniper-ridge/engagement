@@ -18,7 +18,7 @@ const schema = z.object({
 });
 
 // GET: list all posts (admin sees all, public blog uses the /blog route)
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     const post = await prisma.post.create({
       data: {
         ...data,
-        authorId: (session.user as any).id,
+        authorId: (session.user as { id: string }).id,
       },
     });
     return NextResponse.json(post, { status: 201 });

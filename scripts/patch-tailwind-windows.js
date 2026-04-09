@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Patches @tailwindcss/postcss to skip the Windows "nul" device path.
  *

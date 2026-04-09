@@ -39,12 +39,12 @@ export default function ContactPage() {
               Contact
             </span>
             <h1 className="font-[family-name:var(--font-playfair)] text-5xl sm:text-6xl font-bold leading-tight mb-6">
-              Let's Create Something
+              Let&apos;s Create Something
               <br />
               <span className="text-[#7ec870]">Beautiful Together</span>
             </h1>
             <p className="text-white/75 text-lg leading-relaxed">
-              Ready to transform your outdoor space? Reach out and let's start
+              Ready to transform your outdoor space? Reach out and let&apos;s start
               the conversation.
             </p>
           </div>
@@ -207,7 +207,7 @@ export default function ContactPage() {
                     {businessEmail}
                   </a>
                   <p className="text-xs text-gray-500 mt-3">
-                    Or give us a call — we'd love to talk about your project.
+                    Or give us a call — we&apos;d love to talk about your project.
                   </p>
                 </div>
               )}

@@ -36,7 +36,7 @@ export default async function AdminDashboard() {
     <div className="p-8">
       <div className="mb-8">
         <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#1a2316]">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Welcome back. Here's what's happening with your blog.</p>
+        <p className="text-gray-500 mt-1">Welcome back. Here&apos;s what&apos;s happening with your blog.</p>
       </div>
 
       {/* Stats */}

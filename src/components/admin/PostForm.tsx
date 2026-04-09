@@ -75,8 +75,8 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
       }
       router.push("/admin/posts");
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save post.");
       setSaving(false);
     }
   };
