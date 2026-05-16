@@ -42,7 +42,7 @@ function CommentRow({ comment, onRemove, onToggle }: CommentRowProps) {
   return (
     <tr className="border-b border-gray-100 align-top hover:bg-gray-50/60 transition-colors">
       <td className="py-4 pr-4 w-56">
-        <p className="font-semibold text-sm text-[#1a2316]">
+        <p className="font-semibold text-sm text-[#2c3320]">
           {comment.authorName}
         </p>
         <p className="text-xs text-gray-400 mt-0.5">{comment.email}</p>
@@ -59,7 +59,7 @@ function CommentRow({ comment, onRemove, onToggle }: CommentRowProps) {
           {comment.content}
         </p>
         {comment.post && (
-          <p className="text-xs text-[#2d5a27] mt-1.5 font-medium">
+          <p className="text-xs text-[#5a6e3c] mt-1.5 font-medium">
             on: {comment.post.title}
           </p>
         )}
@@ -83,7 +83,7 @@ function CommentRow({ comment, onRemove, onToggle }: CommentRowProps) {
             className={`text-xs font-medium px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 ${
               comment.approved
                 ? "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                : "bg-[#e8f4e6] text-[#2d5a27] hover:bg-[#2d5a27] hover:text-white"
+                : "bg-[#eaf0e4] text-[#5a6e3c] hover:bg-[#5a6e3c] hover:text-white"
             }`}
           >
             {comment.approved ? "Unapprove" : "Approve"}
@@ -134,7 +134,7 @@ export default function CommentsTable({ initialComments }: CommentsTableProps) {
             onClick={() => setFilter(tab)}
             className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors capitalize ${
               filter === tab
-                ? "bg-[#2d5a27] text-white"
+                ? "bg-[#5a6e3c] text-white"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >

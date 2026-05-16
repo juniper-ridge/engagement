@@ -1,9 +1,9 @@
-output "service_url" {
-  description = "Public URL of the deployed Render service"
-  value       = "https://${render_web_service.app.name}.onrender.com"
+output "app_name" {
+  description = "Fly.io application name"
+  value       = fly_app.app.name
 }
 
-output "service_id" {
-  description = "Render internal service ID"
-  value       = render_web_service.app.id
+output "app_hostname" {
+  description = "Default Fly.io hostname"
+  value       = "${fly_app.app.name}.fly.dev"
 }

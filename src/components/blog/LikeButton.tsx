@@ -37,14 +37,10 @@ export default function LikeButton({ postId, initialCount }: LikeButtonProps) {
     <button
       onClick={handleLike}
       disabled={loading}
-      className={`flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium transition-all duration-200 ${
-        liked
-          ? "bg-red-50 border-red-200 text-red-600"
-          : "bg-white border-gray-200 text-gray-600 hover:border-red-200 hover:text-red-500"
-      } disabled:opacity-60`}
+      className={`button button--soft${liked ? " button--like-active" : ""}`}
     >
       <svg
-        className={`w-4 h-4 ${liked ? "fill-red-500 text-red-500" : ""}`}
+        className="button__icon"
         fill={liked ? "currentColor" : "none"}
         viewBox="0 0 24 24"
         stroke="currentColor"

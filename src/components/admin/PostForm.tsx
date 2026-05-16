@@ -102,7 +102,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
       {/* Title */}
       <div>
-        <label className="block text-sm font-medium text-[#1a2316] mb-1.5">
+        <label className="block text-sm font-medium text-[#2c3320] mb-1.5">
           Title <span className="text-red-500">*</span>
         </label>
         <input
@@ -113,13 +113,13 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           value={form.title}
           onChange={handleChange}
           placeholder="Your post title"
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5a6e3c] text-sm"
         />
       </div>
 
       {/* Slug */}
       <div>
-        <label className="block text-sm font-medium text-[#1a2316] mb-1.5">
+        <label className="block text-sm font-medium text-[#2c3320] mb-1.5">
           Slug <span className="text-red-500">*</span>
         </label>
         <div className="flex items-center">
@@ -134,14 +134,14 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
             pattern="[a-z0-9-]+"
             value={form.slug}
             onChange={handleChange}
-            className="flex-1 px-4 py-3 rounded-r-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm"
+            className="flex-1 px-4 py-3 rounded-r-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5a6e3c] text-sm"
           />
         </div>
       </div>
 
       {/* Excerpt */}
       <div>
-        <label className="block text-sm font-medium text-[#1a2316] mb-1.5">
+        <label className="block text-sm font-medium text-[#2c3320] mb-1.5">
           Excerpt <span className="text-red-500">*</span>
         </label>
         <textarea
@@ -152,13 +152,13 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           value={form.excerpt}
           onChange={handleChange}
           placeholder="A short summary shown in the blog listing"
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm resize-none"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5a6e3c] text-sm resize-none"
         />
       </div>
 
       {/* Cover Image */}
       <div>
-        <label className="block text-sm font-medium text-[#1a2316] mb-1.5">
+        <label className="block text-sm font-medium text-[#2c3320] mb-1.5">
           Cover Image URL
         </label>
         <input
@@ -167,13 +167,13 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           value={form.coverImage}
           onChange={handleChange}
           placeholder="https://images.unsplash.com/..."
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5a6e3c] text-sm"
         />
       </div>
 
       {/* Tags */}
       <div>
-        <label className="block text-sm font-medium text-[#1a2316] mb-1.5">
+        <label className="block text-sm font-medium text-[#2c3320] mb-1.5">
           Tags{" "}
           <span className="text-gray-400 font-normal">(comma-separated)</span>
         </label>
@@ -183,13 +183,13 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           value={form.tags}
           onChange={handleChange}
           placeholder="garden design, tips, planting"
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5a6e3c] text-sm"
         />
       </div>
 
       {/* Content */}
       <div>
-        <label className="block text-sm font-medium text-[#1a2316] mb-1.5">
+        <label className="block text-sm font-medium text-[#2c3320] mb-1.5">
           Content (HTML) <span className="text-red-500">*</span>
         </label>
         <textarea
@@ -199,7 +199,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           value={form.content}
           onChange={handleChange}
           placeholder="<p>Write your post content here. HTML is supported.</p>"
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm font-mono resize-y"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5a6e3c] text-sm font-mono resize-y"
         />
         <p className="text-xs text-gray-400 mt-1">
           HTML content. Use standard tags: &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;,
@@ -215,11 +215,11 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           type="checkbox"
           checked={form.published}
           onChange={handleChange}
-          className="w-4 h-4 accent-[#2d5a27] rounded"
+          className="w-4 h-4 accent-[#5a6e3c] rounded"
         />
         <label
           htmlFor="published"
-          className="text-sm font-medium text-[#1a2316]"
+          className="text-sm font-medium text-[#2c3320]"
         >
           Publish immediately
         </label>
@@ -235,7 +235,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
         <button
           type="submit"
           disabled={saving}
-          className="bg-[#2d5a27] text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#4a8a3f] transition-colors disabled:opacity-60"
+          className="bg-[#5a6e3c] text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#7a9960] transition-colors disabled:opacity-60"
         >
           {saving
             ? "Saving…"

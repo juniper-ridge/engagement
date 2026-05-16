@@ -41,37 +41,37 @@ export default async function BlogPage() {
   return (
     <>
       <Navbar />
-      <main className="flex-1">
-        {/* Hero */}
-        <section className="relative pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-[#1a2316] text-white overflow-hidden">
+      <main id="main-content" className="site-main">
+        <section aria-labelledby="blog-page-heading" className="editorial-hero">
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-25"
+            aria-hidden="true"
+            className="editorial-hero__media"
             style={{
               backgroundImage:
                 "url('https://images.unsplash.com/photo-1463936575829-25148e1db1b8?w=1920&q=80')",
             }}
           />
-          <div className="relative max-w-3xl mx-auto text-center">
-            <span className="inline-block bg-[#2d5a27]/60 border border-[#4a8a3f]/40 text-[#7ec870] text-sm font-semibold px-4 py-1.5 rounded-full mb-6 uppercase tracking-widest">
+          <div className="editorial-hero__inner">
+            <span className="section-badge">
               Blog
             </span>
-            <h1 className="font-[family-name:var(--font-playfair)] text-5xl sm:text-6xl font-bold leading-tight mb-6">
+            <h1 id="blog-page-heading" className="editorial-hero__title">
               Landscape Insights &<br />
-              <span className="text-[#7ec870]">Design Inspiration</span>
+              <span className="accent-emphasis">Design Inspiration</span>
             </h1>
-            <p className="text-white/75 text-lg">
+            <p className="editorial-hero__text">
               Tips, trends, and stories from the Juniper Ridge team.
             </p>
           </div>
         </section>
 
-        {/* Posts grid */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#faf8f3]">
-          <div className="max-w-7xl mx-auto">
+        <section aria-label="Blog posts" className="section section--cream">
+          <div className="section__inner">
             {posts.length === 0 ? (
-              <div className="text-center py-20 text-gray-500">
+              <div className="empty-state">
                 <svg
-                  className="w-16 h-16 mx-auto mb-4 text-gray-300"
+                  aria-hidden="true"
+                  className="empty-state__icon"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -83,52 +83,50 @@ export default async function BlogPage() {
                     d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
                   />
                 </svg>
-                <p className="text-lg font-medium">
+                <p className="empty-state__text">
                   No posts published yet. Check back soon!
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="blog-grid">
                 {posts.map((post) => (
                   <article
                     key={post.id}
-                    className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 group flex flex-col"
+                    aria-labelledby={`post-title-${post.id}`}
+                    className="blog-card"
                   >
                     {post.coverImage && (
-                      <div className="relative aspect-[16/9] overflow-hidden">
+                      <div className="blog-card__media">
                         <Image
                           src={post.coverImage}
                           alt={post.title}
                           fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="blog-card__image"
                           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                         />
                       </div>
                     )}
-                    <div className="p-6 flex flex-col flex-1">
+                    <div className="blog-card__body">
                       {post.tags && (
-                        <div className="flex flex-wrap gap-2 mb-3">
+                        <div className="tag-row">
                           {post.tags
                             .split(",")
                             .slice(0, 3)
                             .map((tag) => (
-                              <span
-                                key={tag}
-                                className="text-xs bg-[#e8f4e6] text-[#2d5a27] px-2.5 py-1 rounded-full font-medium"
-                              >
+                              <span key={tag} className="tag-pill">
                                 {tag.trim()}
                               </span>
                             ))}
                         </div>
                       )}
-                      <h2 className="font-[family-name:var(--font-playfair)] font-bold text-xl text-[#1a2316] mb-3 leading-snug group-hover:text-[#2d5a27] transition-colors">
+                      <h2 id={`post-title-${post.id}`} className="blog-card__title">
                         <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                       </h2>
-                      <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
+                      <p className="blog-card__text">
                         {post.excerpt}
                       </p>
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                        <div className="text-xs text-gray-400">
+                      <div className="blog-card__footer">
+                        <div className="blog-card__meta">
                           {new Date(post.createdAt).toLocaleDateString(
                             "en-US",
                             {
@@ -139,10 +137,11 @@ export default async function BlogPage() {
                           )}
                           {" · "}by {post.author.name}
                         </div>
-                        <div className="flex items-center gap-3 text-xs text-gray-400">
-                          <span className="flex items-center gap-1">
+                        <div className="metric-row blog-card__meta">
+                          <span aria-label={`${post._count.likes} likes`} className="metric">
                             <svg
-                              className="w-3.5 h-3.5"
+                              aria-hidden="true"
+                              className="button__icon"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -156,9 +155,10 @@ export default async function BlogPage() {
                             </svg>
                             {post._count.likes}
                           </span>
-                          <span className="flex items-center gap-1">
+                          <span aria-label={`${post._count.comments} comments`} className="metric">
                             <svg
-                              className="w-3.5 h-3.5"
+                              aria-hidden="true"
+                              className="button__icon"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"

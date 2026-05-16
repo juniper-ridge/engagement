@@ -8,8 +8,21 @@ describe("Navbar", () => {
     expect(document.body).toBeTruthy();
   });
 
-  it("contains a navigation element", () => {
+  it("renders the brand and mobile menu toggle", () => {
     render(<Navbar />);
-    expect(screen.getByRole("navigation")).toBeInTheDocument();
+    expect(screen.getByText(/juniper ridge/i)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/toggle navigation menu/i),
+    ).toBeInTheDocument();
+  });
+
+  it("contains both desktop and mobile navigation landmarks", () => {
+    render(<Navbar />);
+    expect(
+      screen.getByRole("navigation", { name: /main navigation/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("navigation", { name: /mobile navigation/i }),
+    ).toBeInTheDocument();
   });
 });

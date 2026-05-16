@@ -5,7 +5,7 @@
 > Copying, forking, or reusing any part of this code without explicit written
 > permission is prohibited. See [LICENSE](LICENSE) for details.
 
-A full-featured landscape design business website built with **Next.js 16 App Router**, TypeScript, Tailwind CSS v4, Prisma (SQLite), and NextAuth v5.
+A full-featured landscape design business website built with **Next.js 16 App Router**, TypeScript, a LESS-authored public design system, Prisma (SQLite), and NextAuth v5.
 
 ## Features
 
@@ -20,7 +20,7 @@ A full-featured landscape design business website built with **Next.js 16 App Ro
 
 ## Prerequisites
 
-- Node.js 20+
+- Node.js 24+
 - npm 9+
 
 ---
@@ -85,6 +85,20 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+### Styling workflow
+
+- Public-facing styles are authored in `src/styles/public.less`.
+- `src/app/globals.css` is a generated file compiled from that LESS source.
+- The `predev` and `prebuild` scripts run `npm run styles:build` automatically.
+- If you only want to rebuild styles while working on UI changes, run:
+
+```bash
+npm run styles:build
+```
+
+- Do not hand-edit `src/app/globals.css` unless you also intend to overwrite it on the next LESS build.
+- Tailwind remains in use for admin-only screens via `src/app/admin/admin.css`.
+
 ---
 
 ## Admin Panel
@@ -121,7 +135,7 @@ npm start
 | ---------- | ----------------------------------------- |
 | Framework  | Next.js 16 (App Router)                   |
 | Language   | TypeScript                                |
-| Styling    | Tailwind CSS v4 + @tailwindcss/typography |
+| Styling    | LESS for public UI, Tailwind CSS v4 for admin UI |
 | Database   | SQLite via Prisma ORM                     |
 | Auth       | NextAuth v5 (Credentials)                 |
 | Email      | nodemailer (SMTP)                         |

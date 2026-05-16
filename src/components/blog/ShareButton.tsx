@@ -29,12 +29,12 @@ export default function ShareButton({ title }: ShareButtonProps) {
   return (
     <button
       onClick={handleShare}
-      className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-medium hover:border-[#2d5a27] hover:text-[#2d5a27] transition-all duration-200"
+      className="button button--soft"
     >
       {copied ? (
         <>
           <svg
-            className="w-4 h-4 text-[#2d5a27]"
+            className="button__icon"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -51,7 +51,7 @@ export default function ShareButton({ title }: ShareButtonProps) {
       ) : (
         <>
           <svg
-            className="w-4 h-4"
+            className="button__icon"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

@@ -20,17 +20,17 @@ export default async function AdminPostsPage() {
   }
 
   return (
-    <div className="p-8">
+    <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#1a2316]">
+          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#2c3320]">
             Blog Posts
           </h1>
           <p className="text-gray-500 mt-1">{posts.length} total posts</p>
         </div>
         <Link
           href="/admin/posts/new"
-          className="bg-[#2d5a27] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#4a8a3f] transition-colors"
+          className="bg-[#5a6e3c] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#7a9960] transition-colors"
         >
           + New Post
         </Link>
@@ -40,7 +40,7 @@ export default async function AdminPostsPage() {
         {posts.length === 0 ? (
           <div className="text-center py-16 text-gray-400">
             <p className="text-lg mb-4">No posts yet</p>
-            <Link href="/admin/posts/new" className="text-[#2d5a27] font-medium hover:underline">
+            <Link href="/admin/posts/new" className="text-[#5a6e3c] font-medium hover:underline">
               Create your first post →
             </Link>
           </div>
@@ -67,14 +67,14 @@ export default async function AdminPostsPage() {
               {posts.map((post) => (
                 <tr key={post.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4">
-                    <div className="font-medium text-[#1a2316] line-clamp-1">{post.title}</div>
+                    <div className="font-medium text-[#2c3320] line-clamp-1">{post.title}</div>
                     <div className="text-xs text-gray-400 mt-0.5">/{post.slug}</div>
                   </td>
                   <td className="px-4 py-4 hidden sm:table-cell">
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         post.published
-                          ? "bg-[#e8f4e6] text-[#2d5a27]"
+                          ? "bg-[#eaf0e4] text-[#5a6e3c]"
                           : "bg-gray-100 text-gray-500"
                       }`}
                     >
@@ -105,7 +105,7 @@ export default async function AdminPostsPage() {
                       </Link>
                       <Link
                         href={`/admin/posts/${post.id}/edit`}
-                        className="text-xs text-[#2d5a27] hover:underline font-medium"
+                        className="text-xs text-[#5a6e3c] hover:underline font-medium"
                       >
                         Edit
                       </Link>

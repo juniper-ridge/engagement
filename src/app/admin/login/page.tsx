@@ -32,10 +32,12 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#faf8f3] px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-full bg-[#2d5a27] flex items-center justify-center text-white font-bold text-xl mx-auto mb-4">
-            JR
-          </div>
-          <h1 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#1a2316]">
+          <img
+            src="/logo-nav.webp"
+            alt="Juniper Ridge Landscape"
+            className="h-12 w-auto mx-auto mb-4"
+          />
+          <h1 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#2c3320]">
             Admin Login
           </h1>
           <p className="text-gray-500 text-sm mt-1">Juniper Ridge Landscape</p>
@@ -48,7 +50,7 @@ export default function AdminLoginPage() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-[#1a2316] mb-1.5"
+              className="block text-sm font-medium text-[#2c3320] mb-1.5"
             >
               Email
             </label>
@@ -61,13 +63,13 @@ export default function AdminLoginPage() {
               onChange={(e) =>
                 setForm((p) => ({ ...p, email: e.target.value }))
               }
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5a6e3c] text-sm"
             />
           </div>
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-[#1a2316] mb-1.5"
+              className="block text-sm font-medium text-[#2c3320] mb-1.5"
             >
               Password
             </label>
@@ -80,7 +82,7 @@ export default function AdminLoginPage() {
               onChange={(e) =>
                 setForm((p) => ({ ...p, password: e.target.value }))
               }
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5a6e3c] text-sm"
             />
           </div>
           {error && (
@@ -91,7 +93,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#2d5a27] text-white py-3.5 rounded-xl font-semibold hover:bg-[#4a8a3f] transition-colors disabled:opacity-60"
+            className="w-full bg-[#5a6e3c] text-white py-3.5 rounded-xl font-semibold hover:bg-[#7a9960] transition-colors disabled:opacity-60"
           >
             {loading ? "Signing in…" : "Sign In"}
           </button>

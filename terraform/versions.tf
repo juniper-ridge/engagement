@@ -2,9 +2,9 @@ terraform {
   required_version = "1.14.8"
 
   required_providers {
-    render = {
-      source  = "render-oss/render"
-      version = "~> 1.3"
+    fly = {
+      source  = "fly-apps/fly"
+      version = "~> 0.0.23"
     }
   }
 
@@ -21,7 +21,6 @@ terraform {
   }
 }
 
-provider "render" {
-  api_key  = var.render_api_key
-  owner_id = var.render_owner_id
+provider "fly" {
+  fly_api_token = var.fly_api_token
 }

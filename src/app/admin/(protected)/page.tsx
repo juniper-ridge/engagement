@@ -34,8 +34,8 @@ export default async function AdminDashboard() {
       label: "Total Posts",
       value: totalPosts,
       href: "/admin/posts",
-      color: "text-[#2d5a27]",
-      bg: "bg-[#e8f4e6]",
+      color: "text-[#5a6e3c]",
+      bg: "bg-[#eaf0e4]",
     },
     {
       label: "Published",
@@ -61,9 +61,9 @@ export default async function AdminDashboard() {
   ];
 
   return (
-    <div className="p-8">
+    <div>
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#1a2316]">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#2c3320]">
           Dashboard
         </h1>
         <p className="text-gray-500 mt-1">
@@ -93,7 +93,7 @@ export default async function AdminDashboard() {
       <div className="flex gap-4 mb-10">
         <Link
           href="/admin/posts/new"
-          className="bg-[#2d5a27] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#4a8a3f] transition-colors"
+          className="bg-[#5a6e3c] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#7a9960] transition-colors"
         >
           + New Post
         </Link>
@@ -108,10 +108,10 @@ export default async function AdminDashboard() {
       {/* Recent posts */}
       <div className="bg-white rounded-2xl border border-gray-100">
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h2 className="font-semibold text-[#1a2316]">Recent Posts</h2>
+          <h2 className="font-semibold text-[#2c3320]">Recent Posts</h2>
           <Link
             href="/admin/posts"
-            className="text-sm text-[#2d5a27] hover:underline"
+            className="text-sm text-[#5a6e3c] hover:underline"
           >
             View all
           </Link>
@@ -128,7 +128,7 @@ export default async function AdminDashboard() {
                 className="px-6 py-4 flex items-center justify-between gap-4"
               >
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium text-[#1a2316] text-sm truncate">
+                  <div className="font-medium text-[#2c3320] text-sm truncate">
                     {post.title}
                   </div>
                   <div className="text-xs text-gray-400 mt-0.5">
@@ -140,7 +140,7 @@ export default async function AdminDashboard() {
                   <span
                     className={`text-xs px-2.5 py-1 rounded-full font-medium ${
                       post.published
-                        ? "bg-[#e8f4e6] text-[#2d5a27]"
+                        ? "bg-[#eaf0e4] text-[#5a6e3c]"
                         : "bg-gray-100 text-gray-500"
                     }`}
                   >
@@ -148,7 +148,7 @@ export default async function AdminDashboard() {
                   </span>
                   <Link
                     href={`/admin/posts/${post.id}/edit`}
-                    className="text-xs text-gray-500 hover:text-[#2d5a27] transition-colors"
+                    className="text-xs text-gray-500 hover:text-[#5a6e3c] transition-colors"
                   >
                     Edit
                   </Link>

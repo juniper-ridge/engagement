@@ -39,21 +39,18 @@ export default function CommentForm({ postId }: CommentFormProps) {
 
   if (status === "success") {
     return (
-      <div className="bg-[#e8f4e6] border border-[#2d5a27]/20 text-[#2d5a27] px-5 py-4 rounded-xl text-sm">
+      <div className="status-message status-message--success">
         {t("commentSuccess")}
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label
-            htmlFor="authorName"
-            className="block text-sm font-medium text-[#1a2316] mb-1.5"
-          >
-            {t("commentName")} <span className="text-red-500">*</span>
+    <form onSubmit={handleSubmit} className="form-stack">
+      <div className="form-grid">
+        <div className="field">
+          <label htmlFor="authorName" className="field__label">
+            {t("commentName")} <span className="field__required">*</span>
           </label>
           <input
             id="authorName"
@@ -63,15 +60,12 @@ export default function CommentForm({ postId }: CommentFormProps) {
             maxLength={200}
             value={form.authorName}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm"
+            className="field__control"
           />
         </div>
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-[#1a2316] mb-1.5"
-          >
-            {t("commentEmail")} <span className="text-red-500">*</span>
+        <div className="field">
+          <label htmlFor="email" className="field__label">
+            {t("commentEmail")} <span className="field__required">*</span>
           </label>
           <input
             id="email"
@@ -81,16 +75,13 @@ export default function CommentForm({ postId }: CommentFormProps) {
             maxLength={200}
             value={form.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm"
+            className="field__control"
           />
         </div>
       </div>
-      <div>
-        <label
-          htmlFor="content"
-          className="block text-sm font-medium text-[#1a2316] mb-1.5"
-        >
-          {t("commentMessage")} <span className="text-red-500">*</span>
+      <div className="field">
+        <label htmlFor="content" className="field__label">
+          {t("commentMessage")} <span className="field__required">*</span>
         </label>
         <textarea
           id="content"
@@ -100,18 +91,18 @@ export default function CommentForm({ postId }: CommentFormProps) {
           rows={4}
           value={form.content}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] text-sm resize-none"
+          className="field__control"
         />
       </div>
       {status === "error" && (
-        <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl">
+        <div className="status-message status-message--error">
           {t("commentError")}
         </div>
       )}
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="bg-[#2d5a27] text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#4a8a3f] transition-colors disabled:opacity-60"
+        className="button button--primary"
       >
         {status === "submitting" ? t("commentSubmitting") : t("commentSubmit")}
       </button>

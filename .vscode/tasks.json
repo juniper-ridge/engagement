@@ -1,0 +1,46 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "prisma-db-push",
+			"type": "shell",
+			"command": "npx prisma db push && npx prisma generate",
+			"isBackground": false
+		},
+		{
+			"label": "prisma-db-push",
+			"type": "shell",
+			"command": "npx prisma db push && npx prisma generate",
+			"isBackground": false
+		},
+		{
+			"label": "prisma-migrate",
+			"type": "shell",
+			"command": "npx prisma db push && echo DONE",
+			"isBackground": false
+		},
+		{
+			"label": "Delete about files",
+			"type": "shell",
+			"command": "node -e \"const fs = require('fs'); fs.rmSync('src/app/admin/(protected)/about', {recursive: true, force: true}); fs.rmSync('src/app/api/about', {recursive: true, force: true}); console.log('deleted');\""
+		},
+		{
+			"label": "cleanup-about",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const fs = require('fs'); fs.rmSync('src/app/admin/(protected)/about', {recursive: true, force: true}); fs.rmSync('src/app/api/about', {recursive: true, force: true}); console.log('deleted');"
+			]
+		},
+		{
+			"label": "cleanup-about",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const fs=require('fs');fs.rmSync('src/app/admin/(protected)/about',{recursive:true,force:true});fs.rmSync('src/app/api/about',{recursive:true,force:true});console.log('done')"
+			]
+		}
+	]
+}

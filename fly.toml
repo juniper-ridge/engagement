@@ -1,0 +1,43 @@
+# Production — https://www.juniperridgelandscape.com
+app            = "juniper-ridge"
+primary_region = "sea"
+
+[build]
+
+[env]
+  NODE_ENV                    = "production"
+  PORT                        = "3000"
+  NEXTAUTH_URL                = "https://www.juniperridgelandscape.com"
+  DATABASE_URL                = "file:/data/dev.db"
+  SMTP_PORT                   = "587"
+  SMTP_FROM                   = "noreply@juniperridgelandscape.com"
+  CLIENT_EMAIL                = "info@juniperridgelandscape.com"
+  NEXT_PUBLIC_BOOKINGS_URL    = ""
+  NEXT_PUBLIC_SITE_NAME       = "Juniper Ridge Landscape"
+  NEXT_PUBLIC_BUSINESS_EMAIL  = "info@juniperridgelandscape.com"
+  NEXT_PUBLIC_PHONE_NUMBER    = "(555) 867-5309"
+  NEXT_PUBLIC_PHONE_HREF      = "tel:+15558675309"
+  NEXT_PUBLIC_SERVICE_REGION  = "Wasatch Front, Utah"
+  NEXT_PUBLIC_BUSINESS_HOURS  = "Mon–Fri: 9am–5pm"
+  NEXT_PUBLIC_DOMAIN          = "juniperridgelandscape.com"
+
+# Persistent disk for SQLite — mounted at /data
+[mounts]
+  source      = "data"
+  destination = "/data"
+
+[http_service]
+  internal_port       = 3000
+  force_https         = true
+  auto_stop_machines  = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+  [http_service.concurrency]
+    type       = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+[[vm]]
+  memory   = "256mb"
+  cpu_kind = "shared"
+  cpus     = 1

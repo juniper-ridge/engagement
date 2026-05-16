@@ -53,7 +53,7 @@ export async function sendContactEmail(data: ContactFormData) {
     subject: `New Contact Form Submission from ${name}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #2d5a27; border-bottom: 2px solid #2d5a27; padding-bottom: 8px;">
+        <h2 style="color: #5a6e3c; border-bottom: 2px solid #5a6e3c; padding-bottom: 8px;">
           New Inquiry — ${siteName}
         </h2>
         <table style="width: 100%; border-collapse: collapse;">

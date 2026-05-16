@@ -1,8 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import { prisma } from "@/lib/prisma";
 
-export default function Footer() {
-  const t = useTranslations("footer");
+export default async function Footer() {
+  const t = await getTranslations("footer");
   const year = new Date().getFullYear();
   const siteName =
     process.env.NEXT_PUBLIC_SITE_NAME ?? "Juniper Ridge Landscape";
@@ -12,70 +14,74 @@ export default function Footer() {
   const serviceRegion =
     process.env.NEXT_PUBLIC_SERVICE_REGION ?? "Wasatch Front, Utah";
 
+  let hasPosts = false;
+  try {
+    const count = await prisma.post.count({ where: { published: true } });
+    hasPosts = count > 0;
+  } catch {
+    // DB not ready
+  }
+
+  const quickLinks = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About Us" },
+    ...(hasPosts ? [{ href: "/blog", label: "Blog" }] : []),
+    { href: "/contact", label: "Contact" },
+  ];
+
   return (
-    <footer className="bg-[#1a2316] text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 rounded-full bg-[#4a8a3f] flex items-center justify-center text-white font-bold text-sm shrink-0">
-                JR
-              </div>
-              <span className="font-[family-name:var(--font-playfair)] font-bold text-white text-lg leading-tight">
+    <footer aria-label="Site footer" className="footer">
+      <div className="footer__inner">
+        <div className="footer__grid">
+          <div className="footer__brand">
+            <div className="footer__logo-row">
+              <Image
+                src="/logo-nav.webp"
+                alt="Juniper Ridge Landscape"
+                width={165}
+                height={40}
+                className="footer__logo"
+              />
+              <span className="footer__wordmark">
                 Juniper Ridge
                 <br />
-                <span className="text-sm font-normal text-gray-400">
-                  Landscape
-                </span>
+                <span className="brand-wordmark__sub">Landscape</span>
               </span>
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              {t("description")}
-            </p>
+            <p className="footer__description">{t("description")}</p>
           </div>
 
-          {/* Quick links */}
           <div>
-            <h3 className="text-white font-semibold mb-4">{t("quickLinks")}</h3>
-            <ul className="space-y-2 text-sm">
-              {[
-                { href: "/", label: "Home" },
-                { href: "/about", label: "About Us" },
-                { href: "/blog", label: "Blog" },
-                { href: "/contact", label: "Contact" },
-              ].map(({ href, label }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    className="text-gray-400 hover:text-[#4a8a3f] transition-colors"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <h3 className="footer__title">{t("quickLinks")}</h3>
+            <nav aria-label="Footer navigation">
+              <ul className="footer__list">
+                {quickLinks.map(({ href, label }) => (
+                  <li key={href}>
+                    <Link href={href} className="footer__link">{label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
 
-          {/* Services */}
           <div>
-            <h3 className="text-white font-semibold mb-4">{t("services")}</h3>
-            <ul className="space-y-2 text-sm text-gray-400">
+            <h3 className="footer__title">{t("services")}</h3>
+            <ul className="footer__list">
               {["Landscape Design", "Hardscape Design", "Planting Plans"].map(
                 (s) => (
-                  <li key={s}>{s}</li>
+                  <li key={s} className="footer__link">{s}</li>
                 ),
               )}
             </ul>
           </div>
 
-          {/* Contact info */}
           <div>
-            <h3 className="text-white font-semibold mb-4">{t("connect")}</h3>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li className="flex items-start gap-2">
+            <h3 className="footer__title">{t("connect")}</h3>
+            <ul className="footer__list">
+              <li className="footer__contact-item">
                 <svg
-                  className="w-4 h-4 text-[#4a8a3f] mt-0.5 shrink-0"
+                  aria-hidden="true"
+                  className="footer__contact-icon"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -89,14 +95,15 @@ export default function Footer() {
                 </svg>
                 <a
                   href={`mailto:${businessEmail}`}
-                  className="hover:text-[#4a8a3f] transition-colors"
+                  className="footer__contact-link"
                 >
                   {businessEmail}
                 </a>
               </li>
-              <li className="flex items-start gap-2">
+              <li className="footer__contact-item">
                 <svg
-                  className="w-4 h-4 text-[#4a8a3f] mt-0.5 shrink-0"
+                  aria-hidden="true"
+                  className="footer__contact-icon"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -108,11 +115,12 @@ export default function Footer() {
                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                   />
                 </svg>
-                <span>{phoneNumber}</span>
+                <span className="footer__contact-link">{phoneNumber}</span>
               </li>
-              <li className="flex items-start gap-2">
+              <li className="footer__contact-item">
                 <svg
-                  className="w-4 h-4 text-[#4a8a3f] mt-0.5 shrink-0"
+                  aria-hidden="true"
+                  className="footer__contact-icon"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -130,27 +138,21 @@ export default function Footer() {
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                <span>{serviceRegion}</span>
+                <span className="footer__contact-link">{serviceRegion}</span>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <p>
+        <div className="footer__bottom">
+          <p className="footer__legal">
             &copy; {year} {siteName}. {t("rights")}
           </p>
-          <div className="flex gap-4">
-            <Link
-              href="/privacy"
-              className="hover:text-gray-300 transition-colors"
-            >
+          <div className="footer__legal-links">
+            <Link href="/privacy" className="footer__link">
               {t("privacy")}
             </Link>
-            <Link
-              href="/terms"
-              className="hover:text-gray-300 transition-colors"
-            >
+            <Link href="/terms" className="footer__link">
               {t("terms")}
             </Link>
           </div>

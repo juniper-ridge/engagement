@@ -61,32 +61,29 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <Navbar />
-      <main className="flex-1">
-        {/* Hero */}
-        <section className="relative pt-28 pb-12 bg-[#1a2316] text-white">
+      <main id="main-content" className="site-main">
+        <section aria-labelledby="post-hero-heading" className="post-hero">
           {post.coverImage && (
             <div
-              className="absolute inset-0 bg-cover bg-center opacity-25"
+              aria-hidden="true"
+              className="post-hero__media"
               style={{ backgroundImage: `url('${post.coverImage}')` }}
             />
           )}
-          <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <div className="post-hero__inner">
             {post.tags && (
-              <div className="flex flex-wrap gap-2 justify-center mb-5">
+              <div className="tag-row">
                 {post.tags.split(",").map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs bg-[#2d5a27]/60 border border-[#4a8a3f]/40 text-[#7ec870] px-3 py-1 rounded-full font-medium"
-                  >
+                  <span key={tag} className="tag-pill tag-pill--hero">
                     {tag.trim()}
                   </span>
                 ))}
               </div>
             )}
-            <h1 className="font-[family-name:var(--font-playfair)] text-4xl sm:text-5xl font-bold leading-tight mb-4">
+            <h1 id="post-hero-heading" className="post-hero__title">
               {post.title}
             </h1>
-            <p className="text-white/70 text-sm">
+            <p className="post-hero__meta">
               Posted on{" "}
               {new Date(post.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -98,15 +95,14 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </section>
 
-        {/* Cover image */}
         {post.coverImage && (
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-8 relative z-10">
-            <div className="relative aspect-[16/7] rounded-2xl overflow-hidden shadow-xl">
+          <div className="post-cover-wrap">
+            <div className="post-cover">
               <Image
                 src={post.coverImage}
                 alt={post.title}
                 fill
-                className="object-cover"
+                className="blog-card__image"
                 priority
                 sizes="(max-width: 896px) 100vw, 896px"
               />
@@ -114,23 +110,21 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         )}
 
-        {/* Content */}
-        <article className="max-w-3xl mx-auto px-4 sm:px-6 py-14">
+        <article className="post-content">
           <div
-            className="prose prose-lg prose-headings:font-[family-name:var(--font-playfair)] prose-a:text-[#2d5a27] prose-img:rounded-xl max-w-none"
+            className="prose"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
-          {/* Actions */}
-          <div className="mt-10 pt-8 border-t border-gray-200 flex flex-wrap items-center gap-3">
+          <div className="post-actions">
             <LikeButton postId={post.id} initialCount={post._count.likes} />
             <ShareButton title={post.title} />
             <Link
               href="/blog"
-              className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-medium hover:border-gray-300 transition-colors ml-auto"
+              className="button button--soft post-actions__spacer"
             >
               <svg
-                className="w-4 h-4"
+                className="button__icon"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -147,34 +141,30 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </article>
 
-        {/* Comments */}
-        <section className="bg-[#faf8f3] py-16">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6">
-            <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#1a2316] mb-8">
+        <section aria-labelledby="comments-heading" className="section section--cream comments-section">
+          <div className="comments-shell">
+            <h2 id="comments-heading" className="comment-form__title">
               {post.comments.length} Comment
               {post.comments.length !== 1 ? "s" : ""}
             </h2>
 
             {post.comments.length === 0 ? (
-              <p className="text-gray-500 text-sm mb-10">
+              <p className="empty-state__text">
                 No comments yet. Be the first to share your thoughts!
               </p>
             ) : (
-              <div className="space-y-6 mb-12">
+              <div className="comment-list">
                 {post.comments.map((comment) => (
-                  <div
-                    key={comment.id}
-                    className="bg-white rounded-2xl p-6 border border-gray-100"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-full bg-[#e8f4e6] text-[#2d5a27] flex items-center justify-center font-bold text-sm uppercase">
-                        {comment.authorName.charAt(0)}
-                      </div>
+                  <div key={comment.id} className="comment-card">
+                    <div className="comment-avatar">
+                      {comment.authorName.charAt(0)}
+                    </div>
+                    <div>
                       <div>
-                        <div className="font-semibold text-[#1a2316] text-sm">
+                        <div className="comment-card__author">
                           {comment.authorName}
                         </div>
-                        <div className="text-xs text-gray-400">
+                        <div className="comment-card__meta">
                           {new Date(comment.createdAt).toLocaleDateString(
                             "en-US",
                             {
@@ -185,21 +175,20 @@ export default async function BlogPostPage({ params }: Props) {
                           )}
                         </div>
                       </div>
+                      <p className="comment-card__body">
+                        {comment.content}
+                      </p>
                     </div>
-                    <p className="text-gray-700 text-sm leading-relaxed">
-                      {comment.content}
-                    </p>
                   </div>
                 ))}
               </div>
             )}
 
-            {/* Comment form */}
-            <div className="bg-white rounded-2xl p-8 border border-gray-100">
-              <h3 className="font-[family-name:var(--font-playfair)] font-bold text-xl text-[#1a2316] mb-6">
+            <div className="surface-panel comment-form-shell">
+              <h3 className="comment-form__title">
                 Leave a Comment
               </h3>
-              <p className="text-sm text-gray-500 mb-6">
+              <p className="section-subtitle section-intro--left">
                 Comments are moderated and will appear after approval.
               </p>
               <CommentForm postId={post.id} />

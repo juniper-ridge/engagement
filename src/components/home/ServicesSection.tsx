@@ -2,12 +2,7 @@ import { useTranslations } from "next-intl";
 
 const serviceIcons: Record<string, React.ReactNode> = {
   design: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -17,12 +12,7 @@ const serviceIcons: Record<string, React.ReactNode> = {
     </svg>
   ),
   hardscape: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -32,12 +22,7 @@ const serviceIcons: Record<string, React.ReactNode> = {
     </svg>
   ),
   planting: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -54,33 +39,30 @@ export default function ServicesSection() {
   const t = useTranslations("services");
 
   return (
-    <section id="services" className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="text-[#2d5a27] font-semibold text-sm uppercase tracking-widest">
+    <section id="services" className="section section--white">
+      <div className="section__inner">
+        <div className="section-intro">
+          <span className="eyebrow">
             What I Do
           </span>
-          <h2 className="font-[family-name:var(--font-playfair)] text-4xl sm:text-5xl font-bold text-[#1a2316] mt-3 mb-4">
+          <h2 className="section-heading">
             {t("title")}
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="section-subtitle">
             {t("subtitle")}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="service-grid">
           {serviceKeys.map((key) => (
-            <div
-              key={key}
-              className="group p-8 rounded-2xl border border-gray-100 hover:border-[#2d5a27]/20 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-            >
-              <div className="w-14 h-14 rounded-xl bg-[#e8f4e6] text-[#2d5a27] flex items-center justify-center mb-5 group-hover:bg-[#2d5a27] group-hover:text-white transition-colors duration-300">
+            <div key={key} className="service-card">
+              <div className="service-card__icon">
                 {serviceIcons[key]}
               </div>
-              <h3 className="font-[family-name:var(--font-playfair)] font-bold text-xl text-[#1a2316] mb-3">
+              <h3 className="service-card__title">
                 {t(`${key}.title`)}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="service-card__text">
                 {t(`${key}.description`)}
               </p>
             </div>

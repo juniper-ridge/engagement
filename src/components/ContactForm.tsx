@@ -39,14 +39,11 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-[#1a2316] mb-1.5"
-          >
-            {t("name")} <span className="text-red-500">*</span>
+    <form onSubmit={handleSubmit} className="form-stack">
+      <div className="form-grid">
+        <div className="field">
+          <label htmlFor="name" className="field__label">
+            {t("name")} <span className="field__required">*</span>
           </label>
           <input
             id="name"
@@ -57,15 +54,12 @@ export default function ContactForm() {
             value={form.name}
             onChange={handleChange}
             placeholder={t("namePlaceholder")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] focus:border-transparent transition text-sm bg-white"
+            className="field__control"
           />
         </div>
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-[#1a2316] mb-1.5"
-          >
-            {t("email")} <span className="text-red-500">*</span>
+        <div className="field">
+          <label htmlFor="email" className="field__label">
+            {t("email")} <span className="field__required">*</span>
           </label>
           <input
             id="email"
@@ -76,16 +70,13 @@ export default function ContactForm() {
             value={form.email}
             onChange={handleChange}
             placeholder={t("emailPlaceholder")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] focus:border-transparent transition text-sm bg-white"
+            className="field__control"
           />
         </div>
       </div>
 
-      <div>
-        <label
-          htmlFor="phone"
-          className="block text-sm font-medium text-[#1a2316] mb-1.5"
-        >
+      <div className="field">
+        <label htmlFor="phone" className="field__label">
           {t("phone")}
         </label>
         <input
@@ -96,16 +87,13 @@ export default function ContactForm() {
           value={form.phone}
           onChange={handleChange}
           placeholder={t("phonePlaceholder")}
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] focus:border-transparent transition text-sm bg-white"
+          className="field__control"
         />
       </div>
 
-      <div>
-        <label
-          htmlFor="message"
-          className="block text-sm font-medium text-[#1a2316] mb-1.5"
-        >
-          {t("message")} <span className="text-red-500">*</span>
+      <div className="field">
+        <label htmlFor="message" className="field__label">
+          {t("message")} <span className="field__required">*</span>
         </label>
         <textarea
           id="message"
@@ -116,17 +104,17 @@ export default function ContactForm() {
           value={form.message}
           onChange={handleChange}
           placeholder={t("messagePlaceholder")}
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d5a27] focus:border-transparent transition text-sm bg-white resize-none"
+          className="field__control"
         />
       </div>
 
       {status === "success" && (
-        <div className="bg-[#e8f4e6] border border-[#2d5a27]/20 text-[#2d5a27] text-sm px-4 py-3 rounded-xl">
+        <div className="status-message status-message--success">
           {t("success")}
         </div>
       )}
       {status === "error" && (
-        <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl">
+        <div className="status-message status-message--error">
           {t("error")}
         </div>
       )}
@@ -134,7 +122,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="w-full bg-[#2d5a27] text-white py-4 rounded-xl font-semibold hover:bg-[#4a8a3f] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+        className="button button--primary button--block"
       >
         {status === "submitting" ? t("submitting") : t("submit")}
       </button>

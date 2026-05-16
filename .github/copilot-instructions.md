@@ -91,7 +91,7 @@ export default function ComponentName({ prop }: Props) { ... }
 ### Tailwind
 
 - Use Tailwind utility classes directly — no CSS-in-JS, no additional component libraries.
-- Brand tokens: `#2d5a27` (green-primary), `#1a2316` (text-dark), `#faf8f3` (cream), `#8b6914` (brown-accent).
+- Brand tokens: `#5a6e3c` (green-primary), `#7a9960` (green-light), `#2c3320` (text-dark), `#faf8f3` (cream), `#8b6914` (brown-accent).
 - Complex conditional classes: use ternary strings, not a `cn()` helper (no `clsx`/`tailwind-merge` installed).
 
 ---
@@ -139,7 +139,6 @@ export async function POST(req: Request) {
 - All timestamps: `createdAt DateTime @default(now())` and `updatedAt DateTime @updatedAt`
 - Soft visibility: use `active Boolean @default(true)` — never hard-delete content items.
 - Foreign keys: always include `onDelete: Cascade` for child records.
-- Singleton models (e.g. `AboutPageSettings`): use `upsert` with a fixed id of `"singleton"`.
 - Run `npx prisma migrate dev --name <description>` after schema changes — never edit migrations by hand.
 
 ---

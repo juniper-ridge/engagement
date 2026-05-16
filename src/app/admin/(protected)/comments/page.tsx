@@ -29,7 +29,7 @@ export default async function CommentsPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#1a2316]" style={{ fontFamily: "var(--font-playfair)" }}>
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#2c3320]">
           Comments
         </h1>
         <p className="text-gray-500 text-sm mt-1">

@@ -95,9 +95,9 @@ export default function HeroSlidesPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#1a2316] font-[family-name:var(--font-playfair)]">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#2c3320]">
           Hero Slides
         </h1>
         <p className="text-gray-500 text-sm mt-1">
@@ -105,12 +105,15 @@ export default function HeroSlidesPage() {
         </p>
       </div>
 
+      <div className="flex gap-8 items-start">
+      {/* ── Left: form + list ───────────────────── */}
+      <div className="flex-1 min-w-0">
       {/* Form */}
       <form
         onSubmit={handleSubmit}
         className="bg-white rounded-2xl border border-gray-100 p-6 mb-8 shadow-sm"
       >
-        <h2 className="font-semibold text-[#1a2316] mb-4">
+        <h2 className="font-semibold text-[#2c3320] mb-4">
           {editingId ? "Edit Slide" : "Add New Slide"}
         </h2>
         {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
@@ -127,7 +130,7 @@ export default function HeroSlidesPage() {
                 setForm((f) => ({ ...f, imageUrl: e.target.value }))
               }
               placeholder="https://..."
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#2d5a27]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#5a6e3c]"
             />
             {form.imageUrl && (
               <div className="mt-2 relative h-32 rounded-lg overflow-hidden bg-gray-100">
@@ -153,7 +156,7 @@ export default function HeroSlidesPage() {
                 setForm((f) => ({ ...f, title: e.target.value }))
               }
               placeholder="e.g. Garden Retreat — Salt Lake City"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#2d5a27]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#5a6e3c]"
             />
           </div>
           <div>
@@ -167,7 +170,7 @@ export default function HeroSlidesPage() {
                 setForm((f) => ({ ...f, subtitle: e.target.value }))
               }
               placeholder="e.g. Hardscape & Planting Design"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#2d5a27]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#5a6e3c]"
             />
           </div>
           <div>
@@ -180,7 +183,7 @@ export default function HeroSlidesPage() {
               onChange={(e) =>
                 setForm((f) => ({ ...f, order: Number(e.target.value) }))
               }
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#2d5a27]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#5a6e3c]"
             />
           </div>
           <div className="flex items-center gap-2 pt-6">
@@ -191,7 +194,7 @@ export default function HeroSlidesPage() {
               onChange={(e) =>
                 setForm((f) => ({ ...f, active: e.target.checked }))
               }
-              className="w-4 h-4 accent-[#2d5a27]"
+              className="w-4 h-4 accent-[#5a6e3c]"
             />
             <label
               htmlFor="active"
@@ -205,7 +208,7 @@ export default function HeroSlidesPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="bg-[#2d5a27] text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#4a8a3f] transition-colors disabled:opacity-50"
+            className="bg-[#5a6e3c] text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#7a9960] transition-colors disabled:opacity-50"
           >
             {submitting ? "Saving…" : editingId ? "Update Slide" : "Add Slide"}
           </button>
@@ -250,11 +253,11 @@ export default function HeroSlidesPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-semibold text-[#1a2316] text-sm">
+                  <span className="font-semibold text-[#2c3320] text-sm">
                     {slide.title}
                   </span>
                   <span
-                    className={`text-xs px-2 py-0.5 rounded-full font-medium ${slide.active ? "bg-[#e8f4e6] text-[#2d5a27]" : "bg-gray-100 text-gray-500"}`}
+                    className={`text-xs px-2 py-0.5 rounded-full font-medium ${slide.active ? "bg-[#eaf0e4] text-[#5a6e3c]" : "bg-gray-100 text-gray-500"}`}
                   >
                     {slide.active ? "Active" : "Hidden"}
                   </span>
@@ -293,6 +296,66 @@ export default function HeroSlidesPage() {
           ))}
         </div>
       )}
+      </div>{/* end left column */}
+
+      {/* ── Right: live preview ──────────────────────────── */}
+      <div className="w-80 shrink-0 sticky top-8">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-2">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          Slide Preview
+        </p>
+        <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm aspect-video relative bg-gray-900">
+          {form.imageUrl && (
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url('${form.imageUrl}')` }}
+            />
+          )}
+          <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/60" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
+            <span className="inline-block bg-white/15 border border-white/30 text-white text-[9px] font-medium px-2 py-0.5 rounded-full mb-2 tracking-wider uppercase">
+              Featured Projects
+            </span>
+            {form.title ? (
+              <div className="mb-2">
+                <p className="text-[#a3c490] font-semibold text-xs tracking-wide">{form.title}</p>
+                {form.subtitle && (
+                  <p className="text-white/80 text-[9px] mt-0.5">{form.subtitle}</p>
+                )}
+              </div>
+            ) : (
+              <p className="text-white/40 text-[10px] mb-2">slide title will appear here</p>
+            )}
+            <p className="text-white font-bold text-sm leading-tight">
+              Transforming Outdoor
+              <br />
+              <span className="text-[#a3c490]">Living Spaces</span>
+            </p>
+          </div>
+          {!form.imageUrl && (
+            <div className="absolute inset-0 flex items-end justify-center pb-3">
+              <p className="text-gray-500 text-[10px]">Enter an image URL to see the preview</p>
+            </div>
+          )}
+        </div>
+        {!form.active && (
+          <p className="text-xs text-amber-600 mt-2 flex items-center gap-1.5">
+            <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            Slide is hidden — won&apos;t appear on site until activated
+          </p>
+        )}
+        <p className="text-[10px] text-gray-400 mt-3 leading-relaxed">
+          Previews how the slide title and subtitle appear over the hero background image.
+        </p>
+      </div>
+      </div>{/* end flex container */}
     </div>
   );
 }

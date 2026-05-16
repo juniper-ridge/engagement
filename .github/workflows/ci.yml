@@ -86,14 +86,8 @@ jobs:
     env:
       TF_WORKSPACE: juniper-ridge-integration
       TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
-      TF_VAR_render_api_key: ${{ secrets.RENDER_API_KEY }}
-      TF_VAR_render_owner_id: ${{ secrets.RENDER_OWNER_ID }}
-      TF_VAR_auth_secret: ${{ secrets.AUTH_SECRET }}
-      TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
-      TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
-      TF_VAR_smtp_host: ${{ secrets.SMTP_HOST }}
-      TF_VAR_smtp_user: ${{ secrets.SMTP_USER }}
-      TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      TF_VAR_fly_api_token: ${{ secrets.FLY_API_TOKEN }}
     defaults:
       run:
         working-directory: terraform
@@ -117,6 +111,33 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve -var-file=environments/integration.tfvars
 
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Set Fly secrets
+        working-directory: ${{ github.workspace }}
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: |
+          flyctl secrets set \
+            AUTH_SECRET="$AUTH_SECRET" \
+            NEXTAUTH_SECRET="$AUTH_SECRET" \
+            ADMIN_EMAIL="$ADMIN_EMAIL" \
+            ADMIN_PASSWORD="$ADMIN_PASSWORD" \
+            SMTP_HOST="$SMTP_HOST" \
+            SMTP_USER="$SMTP_USER" \
+            SMTP_PASSWORD="$SMTP_PASSWORD" \
+            --app juniper-ridge-integration \
+            --stage
+
+      - name: Deploy to Fly.io
+        working-directory: ${{ github.workspace }}
+        run: flyctl deploy --config fly.integration.toml --remote-only
+
   # ── 4. E2E Regression → Integration ──────────────────────────────────────
   e2e-integration:
     name: E2E Regression → Integration
@@ -124,7 +145,7 @@ jobs:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
-      PLAYWRIGHT_BASE_URL: "https://juniper-ridge-integration.onrender.com"
+      PLAYWRIGHT_BASE_URL: "https://juniper-ridge-integration.fly.dev"
     steps:
       - uses: actions/checkout@v4
 
@@ -140,9 +161,9 @@ jobs:
 
       - name: Wait for integration to be healthy
         run: |
-          echo "Waiting for https://juniper-ridge-integration.onrender.com ..."
+          echo "Waiting for https://juniper-ridge-integration.fly.dev ..."
           for i in $(seq 1 30); do
-            status=$(curl -s -o /dev/null -w "%{http_code}" https://juniper-ridge-integration.onrender.com/)
+            status=$(curl -s -o /dev/null -w "%{http_code}" https://juniper-ridge-integration.fly.dev/)
             echo "Attempt $i: HTTP $status"
             if [ "$status" = "200" ]; then echo "Ready."; exit 0; fi
             sleep 30
@@ -169,14 +190,8 @@ jobs:
     env:
       TF_WORKSPACE: juniper-ridge-production
       TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
-      TF_VAR_render_api_key: ${{ secrets.RENDER_API_KEY }}
-      TF_VAR_render_owner_id: ${{ secrets.RENDER_OWNER_ID }}
-      TF_VAR_auth_secret: ${{ secrets.AUTH_SECRET }}
-      TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
-      TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
-      TF_VAR_smtp_host: ${{ secrets.SMTP_HOST }}
-      TF_VAR_smtp_user: ${{ secrets.SMTP_USER }}
-      TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      TF_VAR_fly_api_token: ${{ secrets.FLY_API_TOKEN }}
     defaults:
       run:
         working-directory: terraform
@@ -199,6 +214,33 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -var-file=environments/production.tfvars
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Set Fly secrets
+        working-directory: ${{ github.workspace }}
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: |
+          flyctl secrets set \
+            AUTH_SECRET="$AUTH_SECRET" \
+            NEXTAUTH_SECRET="$AUTH_SECRET" \
+            ADMIN_EMAIL="$ADMIN_EMAIL" \
+            ADMIN_PASSWORD="$ADMIN_PASSWORD" \
+            SMTP_HOST="$SMTP_HOST" \
+            SMTP_USER="$SMTP_USER" \
+            SMTP_PASSWORD="$SMTP_PASSWORD" \
+            --app juniper-ridge \
+            --stage
+
+      - name: Deploy to Fly.io
+        working-directory: ${{ github.workspace }}
+        run: flyctl deploy --config fly.toml --remote-only
 
   # ── 6. E2E Smoke Tests → Production ──────────────────────────────────────
   e2e-production:

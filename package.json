@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "styles:build": "lessc src/styles/public.less src/app/globals.css",
+    "predev": "npm run styles:build",
+    "prebuild": "npm run styles:build",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -44,6 +47,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "^16.2.2",
+    "less": "^4.4.1",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5",
